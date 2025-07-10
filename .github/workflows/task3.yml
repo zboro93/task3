@@ -1,4 +1,4 @@
-name: "CI - DevOps - task3"        # e.g., CI - Build and Test
+name: "CI - DevOps - task3"
 
 on:
   push:
