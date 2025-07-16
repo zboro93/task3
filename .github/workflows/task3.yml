@@ -5,6 +5,12 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment - qa/dev/prod"
+        required: true
+        type: string
 
 jobs:
   "build_and_test":               
