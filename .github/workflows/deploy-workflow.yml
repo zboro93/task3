@@ -1,0 +1,45 @@
+name: Deploy to EKS
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      AWS_REGION:
+        description: "Provide AWS region"
+        required: true
+        type: string
+
+  
+env:
+  CLUSTER_NAME: devops-task3
+  DOCKER_IMAGE: zboromir/devops_task3:latest
+  
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+	
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ github.event.inputs.AWS_REGION }}
+    
+    - name: Update kubeconfig
+      run: |
+        aws eks update-kubeconfig \
+          --name $CLUSTER_NAME \
+          --region ${{ github.event.inputs.AWS_REGION }}
+          
+    - name: Apply Kubernetes depolyment
+      run: |
+        kubectl apply -f deployment.yaml
+         
+    - name: Rollout status check
+      run: |
+        kubectl rollout status deployment/devops-deployment
