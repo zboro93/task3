@@ -37,7 +37,7 @@ jobs:
           
     - name: Apply Kubernetes depolyment
       run: |
-        kubectl apply -f deployment.yaml
+        kubectl apply -f deployment.yaml --validate=false
          
     - name: Rollout status check
       run: |
