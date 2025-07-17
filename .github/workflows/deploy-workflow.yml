@@ -7,7 +7,7 @@ on:
     inputs:
       AWS_REGION:
         description: "Provide AWS region"
-        required: true
+        required: false
         type: string
 
   
@@ -27,7 +27,7 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ github.event.inputs.AWS_REGION }}
+        aws-region: ${{ github.event.inputs.AWS_REGION || "eu-central-1" }}
     
     - name: Update kubeconfig
       run: |
