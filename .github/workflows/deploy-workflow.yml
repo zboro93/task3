@@ -34,7 +34,6 @@ jobs:
         aws eks update-kubeconfig \
           --name $CLUSTER_NAME \
           --region ${{ github.event.inputs.AWS_REGION || 'eu-central-1' }} \
-          --validate=false
           
     - name: Apply Kubernetes depolyment
       run: |
